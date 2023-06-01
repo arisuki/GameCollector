@@ -2,17 +2,32 @@
 {% block content %}
 
 <h1>Game List</h1>
-
 {% for game in games %}
-  <div class="card">
+<div class="card">
+  <!-- Add this <a> tag -->
+  <a href="/games/{{ game.id }}">
     <div class="card-content">
-      <span class="card-title">{{ game.name }}</span>
-      <p>Console: {{ game.console }}</p>
-      <p>Genre: {{ game.genre }}</p>
-      <p>Released: {{ game.released }}</p>
-      
+      <span class="card-title">{{ game.name }}</span>  </a>
+      <b><p>Status:</b> 
+        {% if game.finished %}Finished</p>
+      {% else %}
+      Not finished</p>
+      {% endif %}
+      <p><b>Console:</b> {{ game.console }}</p>
+      <p><b>Genre:</b> {{ game.genre }}</p>
+      <p>
+      {% if game.released > 2000 %}
+        <b>MODERN</b>
+        ({{ game.released }})</p>
+      {% else %}
+        <b>RETRO</b>
+        ({{ game.released }})</p>
+      {% endif %}
+
+     
     </div>
-  </div>
+
+</div>
 {% endfor %}
 
 {% endblock %}

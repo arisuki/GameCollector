@@ -17,12 +17,13 @@ class Game(models.Model):
     genre = models.CharField(max_length=50)
     released = models.IntegerField()
 
-
     def __str__(self):
         return f'{self.name}({self.id})'
     
     def get_absolute_url(self):
         return reverse('detail', kwargs={'game_id': self.id})
+    
+
 
 class Note(models.Model):
     date = models.DateField('posted on', auto_now_add=True)
@@ -33,8 +34,10 @@ class Note(models.Model):
         choices = TYPE,
         default=TYPE[0][0],
     )
-
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
 
+    class Meta:
+        ordering = ['-date']
+    
     def __str__(self):
         return f"{self.get_type_display()} on {self.date}"

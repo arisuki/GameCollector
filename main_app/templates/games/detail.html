@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h4>{{ game.name }}</h4>
+<div class="row">
+  <div class="col s6">
+    <div class="card">
+      <div class="card-content">
+      <span class="card-title">{{ game.name }}</span>
 <div>
     <b><p>Status:</b> 
       {% if game.finished %}Finished</p>
@@ -24,5 +28,31 @@
       <a href="{% url 'games_update' game.id %}">Edit</a>
       <a href="{% url 'games_delete' game.id %}">Delete</a>
     </div>
+  </div>
+</div>
+</div>
+
+<div class="row">
+  <div class="col s6">
+
+    {% for note in game.note_set.all %}
+  <div class="card">
+  <table class="striped">
+  <tbody></tbody>
+
+    <tr>
+      <th>{{note.date}}</th>
+      <th>Category: {{note.get_type_display}}</th>
+    </tr>
+    <tr>
+      <td colspan="2">{{note.content}}</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+  {% endfor %}
+</div>
+</div>
+</div>
 
     {% endblock %}

@@ -4,7 +4,7 @@
 <h1>Console Details</h1>
 
 <div class="row">
-  <div class="col s6 col-offset-3">
+  <div class="col s6">
     <div class="card">
       <div class="card-content">
         <span class="card-title">{{ console.name }}</span>
@@ -17,4 +17,27 @@
     </div>
   </div>
 </div>
+
+<div class="row">
+  <div class="col s6">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">Games collected:</span>
+        {% if console.game_set.count %}
+      {% for game in console.game_set.all %}
+      <a href="/games/{{ game.id }}">
+      <p>{{game.name}}</p></a>
+      {% endfor %}
+      {% else %}
+        <p>No games for this console 🎮 </p>
+      {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
 {% endblock %}

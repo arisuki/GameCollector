@@ -25,7 +25,7 @@ class Game(models.Model):
     name = models.CharField(max_length=100)
     finished = models.BooleanField(default=False)
     details = models.TextField(max_length=500)
-    # consoles = models.ManyToManyField(Console)
+    consoles = models.ManyToManyField(Console)
     genre = models.CharField(max_length=50)
     released = models.IntegerField()
 
@@ -42,7 +42,7 @@ class Game(models.Model):
 
 class Note(models.Model):
     date = models.DateField('posted on', auto_now_add=True)
-    content = models.CharField('content of note', max_length=500)
+    content = models.CharField('add a note', max_length=500)
     type = models.CharField(
         'type of note',
         max_length=1,

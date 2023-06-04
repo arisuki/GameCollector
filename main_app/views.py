@@ -17,12 +17,15 @@ def games_index(request):
 
 def games_detail(request, game_id):
     game = Game.objects.get(id=game_id)
+    id_list = game.consoles.all().values_list('id')
+    unassociated_consoles = Console.objects.exclude(id__in=id_list)
+
     note_form = NoteForm()
-    return render(request, 'games/detail.html', {'game': game, 'note_form': note_form})
+    return render(request, 'games/detail.html', {'game': game, 'note_form': note_form, 'consoles': unassociated_consoles})
 
 class GameCreate(CreateView):
     model = Game
-    fields = '__all__'
+    fields =  ['name', 'finished', 'details', 'genre', 'released' ]
 
 class GameUpdate(UpdateView):
     model = Game
@@ -60,3 +63,10 @@ class ConsoleDelete(DeleteView):
   model = Console
   success_url = '/consoles'
 
+def assoc_console(request, game_id, console_id):
+   Game.objects.get(id=game_id).consoles.add(console_id)
+   return redirect('detail', game_id=game_id)
+
+def unassoc_console(request, game_id, console_id):
+   Game.objects.get(id=game_id).consoles.remove(console_id)
+   return redirect('detail', game_id=game_id)

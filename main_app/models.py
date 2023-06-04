@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from datetime import date
 
 # Create your models here.
 
@@ -9,11 +10,22 @@ TYPE = (
     ('P', 'Progress')
 )
 
+
+class Console(models.Model):
+    name = models.CharField(max_length=50)
+    released = models.IntegerField()
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('consoles_detail', kwargs={'pk': self.id})
+
 class Game(models.Model):
     name = models.CharField(max_length=100)
     finished = models.BooleanField(default=False)
     details = models.TextField(max_length=500)
-    console = models.CharField(max_length=50)
+    # consoles = models.ManyToManyField(Console)
     genre = models.CharField(max_length=50)
     released = models.IntegerField()
 
@@ -22,6 +34,9 @@ class Game(models.Model):
     
     def get_absolute_url(self):
         return reverse('detail', kwargs={'game_id': self.id})
+    
+    def posted_today(self):
+        return self.note_set.filter(date=date.today())
     
 
 
@@ -41,3 +56,4 @@ class Note(models.Model):
     
     def __str__(self):
         return f"{self.get_type_display()} on {self.date}"
+    

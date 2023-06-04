@@ -42,6 +42,14 @@
         {{ note_form.as_p }}
         <input type="submit" class="btn" value="Add Note">
       </form>
+
+      <br>
+      {% if game.posted_today %}
+        <div class="card">{{game.name}} has a new post today!</div>
+      {% else %}
+        <div class="card">{{game.name}} has no recent posts.</div>
+      {% endif %}
+
       {% for note in game.note_set.all %}
       <div class="card">
         <table class="striped">

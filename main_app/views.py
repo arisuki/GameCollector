@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
-from .models import Game
+from .models import Game, Console
 from .forms import NoteForm
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
+
 
 def home(request):
     return render(request, 'home.html')
@@ -38,3 +40,23 @@ def add_note(request, game_id):
         new_note.game_id = game_id
         new_note.save()
     return redirect('detail', game_id=game_id)
+
+
+class ConsoleList(ListView):
+  model = Console
+
+class ConsoleDetail(DetailView):
+  model = Console
+
+class ConsoleCreate(CreateView):
+  model = Console
+  fields = '__all__'
+
+class ConsoleUpdate(UpdateView):
+  model = Console
+  fields = ['name', 'released']
+
+class ConsoleDelete(DeleteView):
+  model = Console
+  success_url = '/consoles'
+
